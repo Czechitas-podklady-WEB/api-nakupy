@@ -1,0 +1,42 @@
+### Get week
+GET {{baseURI}}/api
+Authorization: lektor
+
+### Get day
+GET {{baseURI}}/api/mon
+Authorization: lektor
+
+### Add item
+POST {{baseURI}}/api/mon
+Authorization: lektor
+
+{
+    "product": "Jablka",
+    "amount": 3,
+    "unit": "ks",
+    "done": false
+}
+
+### Edit item
+PUT {{baseURI}}/api/mon/01HVWY0R8H0Y4FCPT0FJRAM3AX
+Authorization: lektor
+
+{
+    "product": "Hrušky",
+    "amount": 2,
+    "unit": "ks"
+}
+
+### Patch item
+PATCH {{baseURI}}/api/mon/01HVWY0R8H0Y4FCPT0FJRAM3AX
+Authorization: lektor
+
+{
+    "done": true
+}
+
+### Delete item
+DELETE {{baseURI}}/api/mon/01HVX0KTPDZP33K5M46JR3VABB
+Authorization: lektor
+
+
