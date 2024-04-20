@@ -1,0 +1,239 @@
+openapi: 3.0.3
+info:
+  title: Nákupy API
+  description: |-
+    API Nákupy umožňuje vytvářet nákupní seznam pro každý den v týdnu.
+    V nákupním seznamu pro každý den může být více položek, každá položka obsahuje název položky, množství a jednotku.
+    
+    U jednotlivých položek se také eviduje, zda již byly nakoupeny.
+  contact:
+    email: filip@jirsak.org
+  version: 1.0.0
+servers:
+  - url: https://nakupy.czechitas.app/api/
+paths:
+  /:
+    get:
+      summary: Načte nákupní seznam uživatele na celý týden.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Jednoznačný identifikátor uživatele.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Nákupní seznam na celý týden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Week'
+        '401':
+          description: Uživatel nebyl autorizován.
+  /{day}:
+    parameters:
+      - name: day
+        in: path
+        description: Zvolený den v týdnu.
+        required: true
+        schema:
+          type: string
+          enum:
+            - mon
+            - tue
+            - wed
+            - thu
+            - fri
+            - sat
+            - sun
+      - name: Authorization
+        in: header
+        description: Jednoznačný identifikátor uživatele.
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Načte nákupní seznam uživatele na zadaný den.
+      responses:
+        '200':
+          description: Nákupní seznam na jeden den.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Day'
+        '401':
+          description: Uživatel nebyl autorizován.
+    post:
+      summary: Přidá položku do nákupního seznamu na daný den.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Item"
+      responses:
+        '201':
+          description: Nově přidaná položka nákupního seznamu.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemFull'
+        '401':
+          description: Uživatel nebyl autorizován.
+  /{day}/{id}:
+    parameters:
+      - name: day
+        in: path
+        description: Zvolený den v týdnu.
+        required: true
+        schema:
+          type: string
+          enum:
+            - mon
+            - tue
+            - wed
+            - thu
+            - fri
+            - sat
+            - sun
+      - name: id
+        in: path
+        description: Identifikátor položky seznamu.
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: Jednoznačný identifikátor uživatele.
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Načte položku nákupního seznamu uživatele pro zadaný den určenou ID.
+      responses:
+        '200':
+          description: Položka nákupního seznamu.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemFull'
+        '401':
+          description: Uživatel nebyl autorizován.
+        '404':
+          description: Položka s daným ID v zadaném dni neexistuje.
+    put:
+      summary: Aktualizuje položku nákupního seznamu uživatele pro zadaný den určenou ID. Kompletně nahradí položku novou hodnotou.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Item"
+      responses:
+        '200':
+          description: Upravená položka nákupního seznamu.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemFull'
+        '401':
+          description: Uživatel nebyl autorizován.
+        '404':
+          description: Položka s daným ID v zadaném dni neexistuje.
+    patch:
+      summary: Aktualizuje položku nákupního seznamu uživatele pro zadaný den určenou ID. Pouze upraví hodnoty předané v těle požadavku.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ItemOptional"
+      responses:
+        '200':
+          description: Celá upravená položka nákupního seznamu.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemFull'
+        '401':
+          description: Uživatel nebyl autorizován.
+        '404':
+          description: Položka s daným ID v zadaném dni neexistuje.
+    delete:
+      summary: Smaže položku nákupního seznamu uživatele pro zadaný den určenou ID.
+      responses:
+        '204':
+          description: Položka byla smazána.
+        '401':
+          description: Uživatel nebyl autorizován.
+        '404':
+          description: Položka s daným ID v zadaném dni neexistuje.
+components:
+  schemas:
+    Item:
+      type: object
+      properties:
+        id:
+          type: string
+        product:
+          type: string
+        amount:
+          type: number
+        unit:
+          type: string
+        done:
+          type: boolean
+      required:
+        - product
+        - amount
+    ItemFull:
+      type: object
+      properties:
+        id:
+          type: string
+        product:
+          type: string
+        amount:
+          type: number
+        unit:
+          type: string
+        done:
+          type: boolean
+      required:
+        - id
+        - product
+        - amount
+        - done
+    ItemOptional:
+      type: object
+      properties:
+        product:
+          type: string
+        amount:
+          type: number
+        unit:
+          type: string
+        done:
+          type: boolean
+    Day:
+      type: array
+      items:
+        $ref: '#/components/schemas/ItemFull'
+    Week:
+      type: array
+      items:
+        type: object
+        properties:
+          day:
+            type: string
+            enum:
+              - mon
+              - tue
+              - wed
+              - thu
+              - fri
+              - sat
+              - sun
+          items:
+            $ref: '#/components/schemas/Day'
+        required:
+          - day
+          - items

@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "start": "deno run --unstable-kv --allow-net src/main.ts",
-    "dev": "deno run --watch --unstable-kv --allow-net src/main.ts"
+    "start": "deno run --unstable-kv --allow-net --allow-read src/main.ts",
+    "dev": "deno run --watch --unstable-kv --allow-net --allow-read src/main.ts"
   }
 }
