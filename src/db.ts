@@ -43,7 +43,8 @@ export const db = {
     add: async (user: string, day: string, item: Item) => {
         validateDay(day)
         const id = ulid()
-        const result = await kv.set([user, day, id], {done: false, ...item})
+        item = {done: false, ...item}
+        const result = await kv.set([user, day, id], item)
         return {
             id,
             ...item
