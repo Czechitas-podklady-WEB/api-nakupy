@@ -91,6 +91,11 @@ export const db = {
         await kv.delete([user, day, id]);
     },
 
+    deleteDay: async (user: string, day: string): Promise<void> => {
+        validateDay(day)
+        await kv.delete([user, day]);
+    },
+
     day: async (user: string, day: string): Promise<Item[]> => {
         validateDay(day)
         const items = kv.list<Item>({prefix: [user, day]});

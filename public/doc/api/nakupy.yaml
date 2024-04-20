@@ -64,6 +64,13 @@ paths:
                 $ref: '#/components/schemas/Day'
         '401':
           description: Uživatel nebyl autorizován.
+    delete:
+      summary: Smaže všechny položky nákupního seznamu uživatele na zadaný den.
+      responses:
+        '204':
+          description: Nákupní seznam pro zadaný den byl smazán.
+        '401':
+          description: Uživatel nebyl autorizován.
     post:
       summary: Přidá položku do nákupního seznamu na daný den.
       requestBody:
