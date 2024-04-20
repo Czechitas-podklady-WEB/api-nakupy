@@ -171,8 +171,6 @@ components:
     Item:
       type: object
       properties:
-        id:
-          type: string
         product:
           type: string
         amount:
