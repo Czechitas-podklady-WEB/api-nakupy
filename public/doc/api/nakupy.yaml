@@ -10,7 +10,7 @@ info:
     email: filip@jirsak.org
   version: 1.0.0
 servers:
-  - url: https://nakupy.czechitas.app/api/
+  - url: https://nakupy.czechitas.dev/api/
 paths:
   /:
     get:
