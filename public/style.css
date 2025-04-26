@@ -1,0 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+body {
+  font-family: "Roboto", sans-serif;
+  margin: auto;
+  max-width: 1500px;
+  padding: 40px;
+}
+
+.week {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.day {
+    width: 200px;    
+}
+
+.day__items {
+    border: 1px solid silver;
+    border-radius: 5px;
+}
