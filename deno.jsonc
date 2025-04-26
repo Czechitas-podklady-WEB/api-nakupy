@@ -4,6 +4,7 @@
     "dev": "deno serve --watch --unstable-kv --allow-net --allow-read src/main.ts"
   },
   "imports": {
-    "@hono/hono": "jsr:@hono/hono@^4.7.7"
+    "@hono/hono": "jsr:@hono/hono@^4.7.7",
+    "@hono/swagger-ui": "npm:@hono/swagger-ui@^0.5.1"
   }
 }

@@ -3,6 +3,7 @@ import { appendTrailingSlash } from "@hono/hono/trailing-slash";
 import { getCookie, setCookie } from "@hono/hono/cookie";
 import { cors } from "@hono/hono/cors";
 import { serveStatic } from "@hono/hono/deno";
+import { swaggerUI } from 'npm:@hono/swagger-ui'
 import { db } from "./db.ts";
 import { generateName } from "./name-generator.ts";
 
@@ -82,7 +83,7 @@ api.delete(
 const app = new Hono();
 app.use(appendTrailingSlash());
 app.route("/api/", api);
-app.get("/doc", (c) => c.redirect("/doc/"));
-app.use("/doc/*", serveStatic({ root: "./public" }));
+app.get('/doc', swaggerUI({ url: '/doc/nakupy.yaml' }))
+app.use("/*", serveStatic({ root: "./public" }));
 
 export default { fetch: app.fetch };
