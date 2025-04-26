@@ -9,9 +9,12 @@ const fetchData = async () => {
 };
 
 const renderItem = ({ id, product, amount, unit, done }) => {
-  const classState = done ? "product--done" : "product--todo";
-  return `<li class="product ${classState}" id="product-${id}">
-    <span class="product__name">${product}</span>
+  const icon = done ? "✓" : "—";
+  return `<li class="product" id="product-${id}">
+    <span>
+        <span class="product__icon">${icon}</span>
+        <span class="product__name">${product}</span>
+    </span>
     <span class="product__amount">${amount ?? ""} ${unit ?? ""}</span>
   </li>`;
 };
