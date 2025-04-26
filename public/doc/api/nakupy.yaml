@@ -11,17 +11,11 @@ info:
   version: 1.0.0
 servers:
   - url: https://nakupy.czechitas.dev/api/
+  - url: http://localhost:8000/api/
 paths:
   /:
     get:
       summary: Načte nákupní seznam uživatele na celý týden.
-      parameters:
-        - name: Authorization
-          in: header
-          description: Jednoznačný identifikátor uživatele.
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           description: Nákupní seznam na celý týden.
@@ -47,12 +41,6 @@ paths:
             - fri
             - sat
             - sun
-      - name: Authorization
-        in: header
-        description: Jednoznačný identifikátor uživatele.
-        required: true
-        schema:
-          type: string
     get:
       summary: Načte nákupní seznam uživatele na zadaný den.
       responses:
@@ -62,15 +50,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Day'
-        '401':
-          description: Uživatel nebyl autorizován.
+        '400':
+          description: Chybná data.
     delete:
       summary: Smaže všechny položky nákupního seznamu uživatele na zadaný den.
       responses:
         '204':
           description: Nákupní seznam pro zadaný den byl smazán.
-        '401':
-          description: Uživatel nebyl autorizován.
+        '400':
+          description: Chybná data.
     post:
       summary: Přidá položku do nákupního seznamu na daný den.
       requestBody:
@@ -85,8 +73,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ItemFull'
-        '401':
-          description: Uživatel nebyl autorizován.
+        '400':
+          description: Chybná data.
   /{day}/{id}:
     parameters:
       - name: day
@@ -109,12 +97,6 @@ paths:
         required: true
         schema:
           type: string
-      - name: Authorization
-        in: header
-        description: Jednoznačný identifikátor uživatele.
-        required: true
-        schema:
-          type: string
     get:
       summary: Načte položku nákupního seznamu uživatele pro zadaný den určenou ID.
       responses:
@@ -124,8 +106,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ItemFull'
-        '401':
-          description: Uživatel nebyl autorizován.
+        '400':
+          description: Chybná data.
         '404':
           description: Položka s daným ID v zadaném dni neexistuje.
     put:
@@ -142,8 +124,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ItemFull'
-        '401':
-          description: Uživatel nebyl autorizován.
+        '400':
+          description: Chybná data.
         '404':
           description: Položka s daným ID v zadaném dni neexistuje.
     patch:
@@ -160,8 +142,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ItemFull'
-        '401':
-          description: Uživatel nebyl autorizován.
+        '400':
+          description: Chybná data.
         '404':
           description: Položka s daným ID v zadaném dni neexistuje.
     delete:
@@ -169,8 +151,8 @@ paths:
       responses:
         '204':
           description: Položka byla smazána.
-        '401':
-          description: Uživatel nebyl autorizován.
+        '400':
+          description: Chybná data.
         '404':
           description: Položka s daným ID v zadaném dni neexistuje.
 components:
