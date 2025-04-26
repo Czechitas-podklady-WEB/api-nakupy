@@ -83,7 +83,7 @@ api.delete(
 const app = new Hono();
 app.use(appendTrailingSlash());
 app.route("/api/", api);
-app.get('/doc', swaggerUI({ url: '/doc/nakupy.yaml' }))
+app.get('/doc/', swaggerUI({ url: '/doc/nakupy.yaml' }))
 app.use("/*", serveStatic({ root: "./public" }));
 
 export default { fetch: app.fetch };
