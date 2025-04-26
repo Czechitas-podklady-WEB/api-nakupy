@@ -1,6 +1,9 @@
 {
   "tasks": {
-    "start": "deno run --unstable-kv --allow-net --allow-read src/main.ts",
-    "dev": "deno run --watch --unstable-kv --allow-net --allow-read src/main.ts"
+    "start": "deno serve --unstable-kv --allow-net --allow-read src/main.ts",
+    "dev": "deno serve --watch --unstable-kv --allow-net --allow-read src/main.ts"
+  },
+  "imports": {
+    "@hono/hono": "jsr:@hono/hono@^4.7.7"
   }
 }

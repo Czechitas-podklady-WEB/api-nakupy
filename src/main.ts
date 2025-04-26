@@ -1,5 +1,8 @@
-import { Hono, HTTPException } from 'https://deno.land/x/hono@v4.2.5/mod.ts'
-import { cors, serveStatic } from 'https://deno.land/x/hono@v4.2.5/middleware.ts'
+import { Hono } from '@hono/hono'
+import { appendTrailingSlash } from '@hono/hono/trailing-slash'
+import { cors } from '@hono/hono/cors'
+import { HTTPException } from '@hono/hono/http-exception'
+import { serveStatic } from '@hono/hono/deno'
 import { db } from "./db.ts"
 
 const auth = async (c, next) => {
@@ -26,6 +29,8 @@ api.delete("/:day/:id", async (c) => c.json(await db.delete(c.get("user"), c.req
 
 const app = new Hono()
 app.route("/api", api)
+//app.use(appendTrailingSlash())
+app.get("/doc", c => c.redirect("/doc/"))
 app.use('/doc/*', serveStatic({ root: './public' }))
 
-Deno.serve(app.fetch)
+export default {fetch: app.fetch}
